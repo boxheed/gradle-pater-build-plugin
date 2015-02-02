@@ -1,4 +1,4 @@
-package com.fizzpod.gradle.plugins.parent;
+package com.fizzpod.gradle.plugins.pater;
 
 import java.util.regex.Pattern
 
