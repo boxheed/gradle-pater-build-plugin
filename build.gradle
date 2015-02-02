@@ -3,16 +3,38 @@ buildscript {
 		mavenLocal()
 		jcenter()
 	}
+	dependencies {
+//		classpath group: 'com.fizzpod', name: 'pater-build-base-plugin', version: '0.1.0-SNAPSHOT'
+	}
 }
 
 plugins {
 	id 'pl.allegro.tech.build.axion-release' version '1.0.1'
 }
 
+//apply plugin: 'com.fizzpod.pater-build-base'
+
 scmVersion {
     tag {
         prefix = 'release'
     }
+}
+
+subprojects {
+	apply plugin: 'groovy'
+	apply plugin: 'java-gradle-plugin'
+	apply plugin: 'eclipse'
+	apply plugin: 'maven'
+ 
+	dependencies {
+		compile gradleApi()
+		compile localGroovy()
+		compile 'org.reflections:reflections:0.9.9'
+	}
+	
+	artifacts {
+		jar
+	}
 }
 
 
@@ -22,23 +44,9 @@ allprojects {
 		jcenter()
 	}
 
-    apply plugin: 'groovy'
-	apply plugin: 'java-gradle-plugin'
-	apply plugin: 'eclipse'
-	apply plugin: 'maven'
     group = 'com.fizzpod'
     version = scmVersion.version
 	
-	dependencies {
-		compile gradleApi()
-		compile localGroovy()
-		compile 'org.reflections:reflections:0.9.9'
-	}
-
-
-	artifacts {
-		jar
-	}
 }
 
 
