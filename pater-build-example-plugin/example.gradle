@@ -1,0 +1,18 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+	dependencies {
+		classpath group: 'com.fizzpod', name: 'pater-build-example-plugin', version: '1.0-SNAPSHOT'
+	}
+}
+
+apply plugin: 'com.fizzpod.pater-build-cp'
+
+
+
+
+
+
+
