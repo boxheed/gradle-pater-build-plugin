@@ -2,6 +2,8 @@ package com.fizzpod.gradle.plugins.pater;
 
 import java.util.regex.Pattern
 
+import org.apache.commons.io.FilenameUtils
+import org.apache.commons.io.IOUtils
 import org.gradle.api.Project
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
@@ -42,7 +44,22 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 	}
 	
 	private File exportBuildFile(classpathBuildFile) {
-		return new File("C:/Users/andyd_000/Documents/workspace-ggts-3.6.3.SR1/gradle-parent/src/test/resources/build.gradle");
+		
+		String baseName = FilenameUtils.getBaseName(classpathBuildFile);
+		String extension = FilenameUtils.getExtension(classpathBuildFile);
+		File buildFile = File.createTempFile(baseName, "." + extension);
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		try {
+			inputStream = this.getClass().getClassLoader().getResourceAsStream(classpathBuildFile);
+			outputStream = new FileOutputStream(buildFile);
+			IOUtils.copy(inputStream, outputStream);
+		} finally {
+			IOUtils.closeQuietly(inputStream);
+			IOUtils.closeQuietly(outputStream);
+		}
+		return buildFile;
+//		return new File("C:/Users/andyd_000/Documents/workspace-ggts-3.6.3.SR1/gradle-parent/src/test/resources/build.gradle");
 	}
 	
 	private Collection<URI> transformBuildFilesToUri(Project project, Collection<File> buildFiles) {
