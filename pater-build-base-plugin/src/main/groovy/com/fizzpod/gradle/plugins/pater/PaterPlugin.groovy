@@ -2,18 +2,19 @@ package com.fizzpod.gradle.plugins.pater;
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ApplicationPlugin
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 public class PaterPlugin implements Plugin<Project> {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(PaterPlugin.class);
 	
 	private static ServiceLoader<GradleBuildFileResolver> gradleBuildFileResolverLoader = ServiceLoader.load(GradleBuildFileResolver.class);
 	
 	void apply(Project project) {
-		println this.getClass().getName();
 		Set<URI> buildFiles = this.resolveBuildFiles(project);
-		println buildFiles;
+		LOGGER.info("Discovered build files: {}", buildFiles);
 		for(URI uri: buildFiles) {
-			println uri;
 			project.apply(["from": uri]);
 			
 		}
@@ -23,7 +24,7 @@ public class PaterPlugin implements Plugin<Project> {
 	private Set<URI> resolveBuildFiles(Project project) {
 		Set<URI> buildFileUris = new LinkedHashSet<URI>();
 		Collection<GradleBuildFileResolver> resolvers = getBuildFileResolvers();
-		println "resolvers: " + resolvers;
+		LOGGER.info("Using build file resolvers: {} ", resolvers);
 		for(GradleBuildFileResolver resolver: resolvers) {
 			Collection<URI> buildFiles = resolver.findBuildFiles(project);
 			if(buildFiles != null) {
@@ -38,7 +39,6 @@ public class PaterPlugin implements Plugin<Project> {
 		Collection<GradleBuildFileResolver> resolvers = new LinkedList<GradleBuildFileResolver>();
 		
 		for(GradleBuildFileResolver resolver: gradleBuildFileResolverLoader) {
-			
 			resolvers.add(resolver);
 		}
 		resolvers;
