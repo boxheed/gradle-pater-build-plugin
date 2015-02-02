@@ -4,7 +4,7 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath group: 'com.fizzpod', name: 'pater-build-example-plugin', version: '0.1.0-SNAPSHOT'
+		//classpath group: 'com.fizzpod', name: 'pater-build-example-plugin', version: '0.1.0-SNAPSHOT'
 	}
 }
 
@@ -57,10 +57,6 @@ project(':pater-build-classpath-plugin') {
     }
 }
 
-project(':pater-build-example-plugin') {
-    dependencies {
-        compile project(':pater-build-classpath-plugin')
-    }
-}
+
 
 
