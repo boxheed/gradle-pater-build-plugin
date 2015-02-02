@@ -1,10 +1,10 @@
-package com.fizzpod.gradle.plugins.parent;
+package com.fizzpod.gradle.plugins.pater;
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ApplicationPlugin
 
-public class GradleParentBuildFilePlugin implements Plugin<Project> {
+public class PaterPlugin implements Plugin<Project> {
 	
 	private static ServiceLoader<GradleBuildFileResolver> gradleBuildFileResolverLoader = ServiceLoader.load(GradleBuildFileResolver.class);
 	

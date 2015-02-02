@@ -1,4 +1,4 @@
-package com.fizzpod.gradle.plugins.parent;
+package com.fizzpod.gradle.plugins.pater;
 
 import org.gradle.api.Project
 
