@@ -1,0 +1,45 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+}
+
+plugins {
+	id 'pl.allegro.tech.build.axion-release' version '1.0.1'
+}
+
+scmVersion {
+    tag {
+        prefix = 'release'
+    }
+}
+
+
+allprojects {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+
+    apply plugin: 'groovy'
+	apply plugin: 'java-gradle-plugin'
+	apply plugin: 'eclipse'
+	apply plugin: 'maven'
+    group = 'com.fizzpod'
+    version = scmVersion.version
+	
+	dependencies {
+		compile gradleApi()
+		compile localGroovy()
+		compile 'org.reflections:reflections:0.9.9'
+	}
+
+
+	artifacts {
+		jar
+	}
+}
+
+
+
