@@ -4,7 +4,7 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath group: 'com.fizzpod', name: 'pater-build-classpath-plugin', version: '0.1.0-SNAPSHOT'
+		classpath group: 'com.fizzpod', name: 'pater-build-example-plugin', version: '0.1.0-SNAPSHOT'
 	}
 }
 
@@ -12,7 +12,7 @@ plugins {
 	id 'pl.allegro.tech.build.axion-release' version '1.0.1'
 }
 
-apply plugin: 'com.fizzpod.pater-build-cp'
+//apply plugin: 'com.fizzpod.pater-build-example'
 
 scmVersion {
     tag {
@@ -54,6 +54,12 @@ project(':pater-build-classpath-plugin') {
 		compile 'org.reflections:reflections:0.9.9'
 		compile 'commons-io:commons-io:2.4'
 
+    }
+}
+
+project(':pater-build-example-plugin') {
+    dependencies {
+        compile project(':pater-build-classpath-plugin')
     }
 }
 
