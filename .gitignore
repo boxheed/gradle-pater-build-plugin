@@ -1,1 +1,4 @@
 .gradle/
+.classpath
+pater-build-base-plugin/.project
+.settings
