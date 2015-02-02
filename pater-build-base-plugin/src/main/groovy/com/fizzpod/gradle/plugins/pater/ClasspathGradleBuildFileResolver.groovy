@@ -22,7 +22,6 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 		
 		Set<String> buildFiles =
 		reflections.getResources(Pattern.compile(".*\\.gradle"));
-		println "buildFiles" + buildFiles;
 		return buildFiles;
 	}
 	
