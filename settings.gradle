@@ -5,6 +5,4 @@ include 'api'
 include 'services:webservice'
 */
 
-include 'pater-build-base-plugin', 'pater-build-classpath-plugin'
-
 rootProject.name = 'pater-build'
