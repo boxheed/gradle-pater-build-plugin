@@ -18,7 +18,24 @@ public class FileNameGradleBuildFileSorter implements GradleBuildFileSorter {
 
 	@Override
 	public Collection<URI> sortBuildFiles(Project project, Collection<URI> uris) {
-		return uris;
+		List<URI> uriList = new LinkedList<>(uris);
+		Collections.sort(uriList, new UriNameSplittingComaparator());
+		return uriList;
 	}
 	
+	private static final class UriNameSplittingComaparator implements Comparator<URI> {
+
+		@Override
+		public int compare(URI uri1, URI uri2) {
+			String[] parts1 = getNameParts(uri1);
+			String[] parts2 = getNameParts(uri2);
+			return parts1.length - parts2.length;
+		}
+		
+		private String[] getNameParts(URI uri) {
+			String name = FilenameUtils.getBaseName(uri.toString());
+			return name.split("-");
+		}
+		
+	} 
 }
