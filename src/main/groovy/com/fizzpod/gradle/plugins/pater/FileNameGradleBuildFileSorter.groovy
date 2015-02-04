@@ -27,14 +27,28 @@ public class FileNameGradleBuildFileSorter implements GradleBuildFileSorter {
 
 		@Override
 		public int compare(URI uri1, URI uri2) {
+			int comparison = 0;
 			String[] parts1 = getNameParts(uri1);
 			String[] parts2 = getNameParts(uri2);
-			return parts1.length - parts2.length;
+			if(parts1.length == parts2.length) {
+				comparison = compareParts(parts1, parts2);
+			} else {
+				comparison = parts1.length - parts2.length;
+			}
+			return comparison;
 		}
 		
 		private String[] getNameParts(URI uri) {
 			String name = FilenameUtils.getBaseName(uri.toString());
 			return name.split("-");
+		}
+		
+		private int compareParts(String[] parts1, String[] parts2) {
+			int comparison = 0;
+			for(int i = 0; i < parts1.length && comparison == 0; i++) {
+				comparison = parts1[i].toLowerCase().compareTo(parts2[i].toLowerCase());
+			}
+			return comparison;
 		}
 		
 	} 
