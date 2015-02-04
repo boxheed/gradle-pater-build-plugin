@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,71 +18,71 @@ public class GradleBuildFileSorterTest {
 	
 	@Test
 	public void testFirstLevelNameSorting() {
-		Collection<URI> uris = createFileUris("def.gradle", "abc.gradle");
+		Collection<GradleBuildFile> uris = createFiles("def.gradle", "abc.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<URI> sortedUris = new LinkedList<>(sorter.sortBuildFiles(null, uris));
-		assertUri("abc.gradle", sortedUris.get(0));
-		assertUri("def.gradle", sortedUris.get(1)) ;
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		assertBuildFile("abc", sortedBuildFiles.get(0));
+		assertBuildFile("def", sortedBuildFiles.get(1)) ;
 	}
 	
 	@Test
 	public void testSameFirstLevelWithTwoLevels() {
-		Collection<URI> uris = createFileUris("abc-xyz.gradle", "abc.gradle");
+		Collection<GradleBuildFile> uris = createFiles("abc-xyz.gradle", "abc.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<URI> sortedUris = new LinkedList<>(sorter.sortBuildFiles(null, uris));
-		assertUri("abc.gradle", sortedUris.get(0));
-		assertUri("abc-xyz.gradle", sortedUris.get(1));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		assertBuildFile("abc", sortedBuildFiles.get(0));
+		assertBuildFile("abc-xyz", sortedBuildFiles.get(1));
 	}
 	
 	@Test
 	public void testSameFirstLevelDifferentSecondLevelNameSorting() {
-		Collection<URI> uris = createFileUris("abc-xyz.gradle", "abc-def.gradle");
+		Collection<GradleBuildFile> uris = createFiles("abc-xyz.gradle", "abc-def.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<URI> sortedUris = new LinkedList<>(sorter.sortBuildFiles(null, uris));
-		assertUri("abc-def.gradle", sortedUris.get(0));
-		assertUri("abc-xyz.gradle", sortedUris.get(1));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		assertBuildFile("abc-def", sortedBuildFiles.get(0));
+		assertBuildFile("abc-xyz", sortedBuildFiles.get(1));
 	}
 	
 	
 	@Test
 	public void testSameFirstLevelSecondLevelSameButLongerNameSorting() {
-		Collection<URI> uris = createFileUris("abc-xyz.gradle", "abc-xyzdef.gradle");
+		Collection<GradleBuildFile> uris = createFiles("abc-xyz.gradle", "abc-xyzdef.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<URI> sortedUris = new LinkedList<>(sorter.sortBuildFiles(null, uris));
-		assertUri("abc-xyz.gradle", sortedUris.get(0));
-		assertUri("abc-xyzdef.gradle", sortedUris.get(1));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		assertBuildFile("abc-xyz", sortedBuildFiles.get(0));
+		assertBuildFile("abc-xyzdef", sortedBuildFiles.get(1));
 	}
 	
 	@Test
 	public void testMulitpleMixedNameSorting() {
-		Collection<URI> uris = createFileUris("abc.gradle", "def-xyz.gradle", "abc-xyz.gradle", "def.gradle");
+		Collection<GradleBuildFile> uris = createFiles("abc.gradle", "def-xyz.gradle", "abc-xyz.gradle", "def.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<URI> sortedUris = new LinkedList<>(sorter.sortBuildFiles(null, uris));
-		assertUri("abc.gradle", sortedUris.get(0));
-		assertUri("def.gradle", sortedUris.get(1));
-		assertUri("abc-xyz.gradle", sortedUris.get(2));
-		assertUri("def-xyz.gradle", sortedUris.get(3));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		assertBuildFile("abc", sortedBuildFiles.get(0));
+		assertBuildFile("def", sortedBuildFiles.get(1));
+		assertBuildFile("abc-xyz", sortedBuildFiles.get(2));
+		assertBuildFile("def-xyz", sortedBuildFiles.get(3));
 	}
 	
 	@Test
 	public void testCaseInsensitiveNameSorting() {
-		Collection<URI> uris = createFileUris("a.gradle", "B.gradle");
+		Collection<GradleBuildFile> uris = createFiles("a.gradle", "B.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<URI> sortedUris = new LinkedList<>(sorter.sortBuildFiles(null, uris));
-		assertUri("a.gradle", sortedUris.get(0));
-		assertUri("B.gradle", sortedUris.get(1));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		assertBuildFile("a", sortedBuildFiles.get(0));
+		assertBuildFile("B", sortedBuildFiles.get(1));
 	}
 	
-	private void assertUri(String expected, URI actual) {
-		Assert.assertEquals(expected, FilenameUtils.getName(actual.toString()));
+	private void assertBuildFile(String expected, GradleBuildFile actual) {
+		Assert.assertEquals(expected, actual.getName());
 		
 	}
 
-	private Collection<URI> createFileUris(String... fileNames) {
-		List<URI> uris = new LinkedList<URI>();
+	private Collection<GradleBuildFile> createFiles(String... fileNames) {
+		List<GradleBuildFile> uris = new LinkedList<>();
 		for(String name: fileNames) {
 			URI uri = new File(folder.getRoot(), name).toPath().toUri();
-			uris.add(uri);
+			uris.add(new UriGradleBuildFile(uri));
 		}
 		return uris;
 	}
