@@ -48,7 +48,7 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 	}
 	
 	private File exportBuildFile(String classpathBuildFile) {
-		File tempDirectoryFile = Files.createTempDirectory().toFile();
+		File tempDirectoryFile = Files.createTempDirectory("pater-build").toFile();
 		
 		File buildFile = new File(tempDirectoryFile, FilenameUtils.getName(classpathBuildFile));
 		InputStream inputStream = null;
