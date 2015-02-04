@@ -9,19 +9,10 @@ public class PaterPlugin implements Plugin<Project> {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PaterPlugin.class);
 	
-	private GradleBuildFileResolverFactory resolverFactory;
+	private GradleBuildFileResolverFactory resolverFactory = new GradleBuildFileResolverFactory();
 	
-	private GradleBuildFileSorterFactory sorterFactory;
+	private GradleBuildFileSorterFactory sorterFactory = new GradleBuildFileSorterFactory();
 	
-	public PaterPlugin() {
-		sorterFactory = new GradleBuildFileSorterFactory();
-		resolverFactory = new GradleBuildFileResolverFactory();
-	}
-	
-	public PaterPlugin(GradleBuildFileResolverFactory resolverFactory, GradleBuildFileSorterFactory sorterFactory) {
-		sorterFactory = sorterFactory;
-		resolverFactory = resolverFactory;
-	}
 	
 	void apply(Project project) {
 		Collection<GradleBuildFile> buildFiles = this.resolveBuildFiles(project);

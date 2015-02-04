@@ -12,6 +12,7 @@ plugins {
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'eclipse'
+apply plugin: 'maven'
 
 repositories {
 	mavenLocal()
@@ -32,7 +33,7 @@ dependencies {
 	compile localGroovy()
 	compile 'org.reflections:reflections:0.9.9'
 	compile 'commons-io:commons-io:2.4'
-
+	
 	testCompile 'junit:junit:4.12'
 
 }
