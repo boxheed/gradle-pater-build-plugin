@@ -49,7 +49,7 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 	
 	private File exportBuildFile(String classpathBuildFile) {
 		File tempDirectoryFile = Files.createTempDirectory("pater-build").toFile();
-		
+		FileUtils.forceDeleteOnExit(tempDirectoryFile);
 		File buildFile = new File(tempDirectoryFile, FilenameUtils.getName(classpathBuildFile));
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
@@ -57,6 +57,7 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 			inputStream = this.getClass().getClassLoader().getResourceAsStream(classpathBuildFile);
 			outputStream = new FileOutputStream(buildFile);
 			IOUtils.copy(inputStream, outputStream);
+			FileUtils.forceDeleteOnExit(buildFile);
 		} finally {
 			IOUtils.closeQuietly(inputStream);
 			IOUtils.closeQuietly(outputStream);
