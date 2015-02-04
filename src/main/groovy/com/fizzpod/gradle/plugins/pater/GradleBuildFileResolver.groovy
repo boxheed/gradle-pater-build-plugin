@@ -4,6 +4,6 @@ import org.gradle.api.Project
 
 public interface GradleBuildFileResolver {
 
-	Collection<URI> findBuildFiles(Project project);
+	Collection<GradleBuildFile> findBuildFiles(Project project);
 	
 }

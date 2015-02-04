@@ -18,11 +18,10 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClasspathGradleBuildFileResolver.class);
 
-	Collection<URI> findBuildFiles(Project project) {
+	Collection<GradleBuildFile> findBuildFiles(Project project) {
 		Set<String> buildFiles = scanForBuildFiles();
-		LOGGER.info("Discovered build files {}", buildFiles);
-		Collection<File> exportedBuildFiles = exportBuildFiles(buildFiles);
-		return transformBuildFilesToUri(project, exportedBuildFiles);
+		LOGGER.info("Discovered build files: {}", buildFiles);
+		return exportBuildFiles(buildFiles);
 	}
 	
 	private Set<String> scanForBuildFiles(Project project) {
@@ -34,12 +33,13 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 		return buildFiles;
 	}
 	
-	private Collection<File> exportBuildFiles(Collection<String> classpathBuildFiles) {
-		List<File> buildFiles = new LinkedList<>();
+	private Collection<GradleBuildFile> exportBuildFiles(Collection<String> classpathBuildFiles) {
+		List<GradleBuildFile> buildFiles = new LinkedList<>();
 		for(String classpathBuildFile: classpathBuildFiles) {
 			File buildFile = exportBuildFile(classpathBuildFile);
 			if(buildFile != null && buildFile.exists()) {
-				buildFiles.add(buildFile);
+				GradleBuildFile gradleBuildFile = new UriGradleBuildFile(buildFile.toPath().toUri());
+				buildFiles.add(gradleBuildFile);
 			} else {
 				LOGGER.warn("Could not export build file {}", classpathBuildFile);
 			}
@@ -62,14 +62,6 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 			IOUtils.closeQuietly(outputStream);
 		}
 		return buildFile;
-	}
-	
-	private Collection<URI> transformBuildFilesToUri(Project project, Collection<File> buildFiles) {
-		List<URI> uris = new ArrayList<>();
-		for(File buildFile: buildFiles) {
-			uris.add(project.uri(buildFile));
-		}
-		return uris;
 	}
 	
 }
