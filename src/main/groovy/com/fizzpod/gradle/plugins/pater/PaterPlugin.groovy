@@ -9,6 +9,20 @@ public class PaterPlugin implements Plugin<Project> {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PaterPlugin.class);
 	
+	private GradleBuildFileResolverFactory resolverFactory;
+	
+	private GradleBuildFileSorterFactory sorterFactory;
+	
+	public PaterPlugin() {
+		sorterFactory = new GradleBuildFileSorterFactory();
+		resolverFactory = new GradleBuildFileResolverFactory();
+	}
+	
+	public PaterPlugin(GradleBuildFileResolverFactory resolverFactory, GradleBuildFileSorterFactory sorterFactory) {
+		sorterFactory = sorterFactory;
+		resolverFactory = resolverFactory;
+	}
+	
 	void apply(Project project) {
 		Collection<GradleBuildFile> buildFiles = this.resolveBuildFiles(project);
 		LOGGER.info("Discovered build files: {}", buildFiles);
@@ -18,12 +32,11 @@ public class PaterPlugin implements Plugin<Project> {
 		for(GradleBuildFile buildFile: buildFiles) {
 			buildFile.apply(project);
 		}
-		
 	}
 	
 	private Collection<GradleBuildFile> sortBuildFiles(Project project, Collection<GradleBuildFile> buildFiles) {
 		List sortedFiles = new ArrayList<>(buildFiles);
-		GradleBuildFileSorter sorter = new GradleBuildFileSorterFactory().getBuildFileSorter();
+		GradleBuildFileSorter sorter = sorterFactory.getBuildFileSorter();
 		LOGGER.info("Using build file sorter {}", sorter);
 		return sorter.sortBuildFiles(project, buildFiles);
 	}
@@ -42,7 +55,7 @@ public class PaterPlugin implements Plugin<Project> {
 	}
 	
 	private Collection<GradleBuildFileResolver> getBuildFileResolvers() {
-		return new GradleBuildFileResolverFactory().getBuildFileResolvers();
+		return resolverFactory.getBuildFileResolvers();
 	}
 	
 }
