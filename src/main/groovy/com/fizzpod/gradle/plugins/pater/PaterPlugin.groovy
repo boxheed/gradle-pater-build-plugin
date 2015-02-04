@@ -29,7 +29,7 @@ public class PaterPlugin implements Plugin<Project> {
 	}
 	
 	private Collection<GradleBuildFile> resolveBuildFiles(Project project) {
-		Set<GradleBuildFile> buildFileUris = new LinkedHashSet<URI>();
+		Set<GradleBuildFile> buildFileUris = new LinkedHashSet<>();
 		Collection<GradleBuildFileResolver> resolvers = getBuildFileResolvers();
 		LOGGER.info("Using build file resolvers: {} ", resolvers);
 		for(GradleBuildFileResolver resolver: resolvers) {
