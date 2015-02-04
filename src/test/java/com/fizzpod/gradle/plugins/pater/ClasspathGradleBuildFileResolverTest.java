@@ -12,6 +12,9 @@ public class ClasspathGradleBuildFileResolverTest {
 		ClasspathGradleBuildFileResolver resolver = new ClasspathGradleBuildFileResolver();
 		Collection<GradleBuildFile> buildFiles = resolver.findBuildFiles(null);
 		Assert.assertEquals(1, buildFiles.size());
+		GradleBuildFile buildFile = buildFiles.iterator().next();
+		Assert.assertNotNull(buildFile);
+		Assert.assertEquals("my-build", buildFile.getName());
 	}
 	
 }
