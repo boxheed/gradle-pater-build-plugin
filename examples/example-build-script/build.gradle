@@ -1,0 +1,16 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.fizzpod'
+version = '1.0'
+
+
+
+
