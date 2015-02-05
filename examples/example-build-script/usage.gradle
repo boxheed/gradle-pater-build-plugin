@@ -4,7 +4,7 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath 'com.fizzpod:pater-build:0+'
+		classpath 'com.fizzpod:gradle-pater-build-plugin:0+'
 		classpath 'com.fizzpod:example-build-script:1.0'
 	}
 }
