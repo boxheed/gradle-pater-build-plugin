@@ -3,30 +3,32 @@ buildscript {
 		mavenLocal()
 		jcenter()
 	}
-}
-
-plugins {
-	id 'pl.allegro.tech.build.axion-release' version '1.0.1'
+	dependencies {
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.1.0'
+    }
 }
 
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'pl.allegro.tech.build.axion-release'
 
 repositories {
 	mavenLocal()
 	jcenter()
 }
 
-group = 'com.fizzpod'
-version = scmVersion.version
 
 scmVersion {
     tag {
         prefix = 'release'
     }
 }
+
+group = 'com.fizzpod'
+version = scmVersion.version
+
 
 dependencies {
 	compile gradleApi()
