@@ -1,3 +1,5 @@
+[![Build Status](https://drone.io/github.com/boxheed/gradle-pater-build-plugin/status.png)](https://drone.io/github.com/boxheed/gradle-pater-build-plugin/latest)
+
 # Gradle Pater Plugin
 This plugin provides parent build script like capabilities to Gradle. Inspired by a number of blog posts about how to work with/around the current capabilities of Gradle to support importing other build scripts. Current strategies use either `apply from:` in conjunction with a URL or recommend writing your own plugin to set different aspects of a Gradle project programmatically. This plugin combines both of these approaches into a single strategy that allows you to write simple gradle build files and take advantage of dependency management.
 
