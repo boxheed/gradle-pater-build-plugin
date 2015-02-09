@@ -1,0 +1,19 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.fizzpod:gradle-pater-build-plugin:0+'
+		classpath 'com.fizzpod:external-dependency-build-script:1.0'
+	}
+}
+
+apply plugin: 'com.fizzpod.pater-build'
+
+
+
+
+
+
+

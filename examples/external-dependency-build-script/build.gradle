@@ -1,0 +1,20 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.fizzpod'
+version = '1.0'
+
+
+dependencies {
+	compile group: 'pl.allegro.tech.build', name: 'axion-release-plugin', version: '1.1.0'
+}
+
+
+
