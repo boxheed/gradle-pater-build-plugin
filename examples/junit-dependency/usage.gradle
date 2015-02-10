@@ -1,0 +1,20 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+	dependencies {
+		//apply the pater plugin in order to apply any pacakcged gradle build scripts
+		classpath 'com.fizzpod:gradle-pater-build-plugin:1.0.0'
+		//apply your plugin in the build script dependencies for scanning by the pater plugin
+		classpath 'com.example:junit-dependency:1.0'
+	}
+}
+
+repositories {
+    jcenter()
+	mavenLocal()
+}
+
+apply plugin: 'com.fizzpod.pater-build'
+
