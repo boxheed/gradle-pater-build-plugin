@@ -17,7 +17,7 @@ buildscript {
 	}
 	dependencies {
 	    //The pater build plugin.
-		classpath 'com.fizzpod:pater-build:1.0.0'
+		classpath 'com.fizzpod:gradle-pater-build-plugin:1.0.0'
 		//Your library containing the build file in META-INF/pater-build 
 		classpath 'com.example:opinion-java:1.0.0'
 	}
