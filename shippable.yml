@@ -18,10 +18,12 @@ before_script:
   - update-alternatives --set java $java_path
   - java -version
   - mkdir -p shippable/testresults
+  - mkdir -p shippable/codecoverage
   
 script:
   - chmod +x gradlew
-  - ./gradlew clean build
+  - ./gradlew clean currentVersion build
   
 after_script:
   - cp -R ./build/test-results/* ./shippable/testresults
+  - cp -R ./build/reports/cobertura/*.xml ./shippable/codecoverage
