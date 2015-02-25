@@ -18,6 +18,6 @@ before_script:
   - update-alternatives --set java $java_path
   - java -version
   
-# Run gradle
+script:
   - chmod +x gradlew
   - ./gradlew clean build
