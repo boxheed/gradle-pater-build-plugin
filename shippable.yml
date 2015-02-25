@@ -28,4 +28,4 @@ after_script:
   - cp -R ./build/test-results/* ./shippable/testresults
   - cp -R ./build/reports/cobertura/*.xml ./shippable/codecoverage
   
-  archive: true
+archive: true
