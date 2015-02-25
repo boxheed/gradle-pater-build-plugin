@@ -17,7 +17,11 @@ before_script:
   - if [[ $SHIPPABLE_JDK_VERSION == "oraclejdk8" ]] ; then export JAVA_HOME="/usr/lib/jvm/java-8-oracle"; export PATH="$PATH:/usr/lib/jvm/java-8-oracle/bin"; export java_path="/usr/lib/jvm/java-8-oracle/jre/bin/java"; fi
   - update-alternatives --set java $java_path
   - java -version
+  - mkdir -p shippable/testresults
   
 script:
   - chmod +x gradlew
   - ./gradlew clean build
+  
+after_script:
+  - cp -R ./build/test-results/* ./shippable/testresults
