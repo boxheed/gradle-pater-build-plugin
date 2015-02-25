@@ -19,6 +19,7 @@ before_script:
   - java -version
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
+  - mkdir -p shippable/artifacts
   
 script:
   - chmod +x gradlew
@@ -27,5 +28,5 @@ script:
 after_script:
   - cp -R ./build/test-results/* ./shippable/testresults
   - cp -R ./build/reports/cobertura/*.xml ./shippable/codecoverage
-  
+  - cp -R ./build/libs/* ./shippable/artifacts
 archive: true
