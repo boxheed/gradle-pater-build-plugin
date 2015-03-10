@@ -20,13 +20,21 @@ before_script:
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
   - mkdir -p shippable/artifacts
+  - git remote set-url origin git@github.com:boxheed/gradle-pater-build-plugin.git
   
 script:
-  - chmod +x gradlew
-  - ./gradlew clean currentVersion build
+  - ./gradlew clean build
+  - set -e; if [ "$HEAD_BRANCH" == "master" ]; then ./gradlew clean verifyRelease createRelease; git push --tags; ./gradlew -b release.gradle clean build publishPluginToBintray; fi
   
 after_script:
   - cp -R ./build/test-results/* ./shippable/testresults
   - cp -R ./build/reports/cobertura/*.xml ./shippable/codecoverage
   - cp -R ./build/libs/* ./shippable/artifacts
+  
 archive: true
+
+#environment
+env:
+  global:
+    - secure: bvTegN/hfD3iXkXWSJ5nLepEqrZ7ISy0vdjtIAdmoVB5ctlIk0c/WgqMTACyU53+BBIYvC6luh8E2uo985/0pV2/SdYFFygKNHXDYEcJNG+n4MPGb9tLDPl+MiNn7ZJxxs/QGG+9qpY1VspIOAMKF+GVw6Yy0yVY/1AQYnYwz0mDJ52UbaaVZVV1hr5zAObH7mSKUWzYu7iOd0PNy0wBv6hsr8D6BbBJ/PoRB0IRCZiiqaris5V6B9jnoIi23S4xSVZNmRjMP39hh4DGkgLozJbhGAzP7tRqiKD4QJ14Ns6OO1oYKkL2Ptj32Je4YTPr7oBzQ9eWSNDOikjSs5moVw==
+	
