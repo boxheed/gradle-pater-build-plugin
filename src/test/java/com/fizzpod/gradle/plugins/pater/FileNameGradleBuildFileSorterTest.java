@@ -20,7 +20,7 @@ public class FileNameGradleBuildFileSorterTest {
 	public void testFirstLevelNameSorting() {
 		Collection<GradleBuildFile> uris = createFiles("def.gradle", "abc.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<GradleBuildFile>(sorter.sortBuildFiles(null, uris));
 		assertBuildFile("abc", sortedBuildFiles.get(0));
 		assertBuildFile("def", sortedBuildFiles.get(1)) ;
 	}
@@ -29,7 +29,7 @@ public class FileNameGradleBuildFileSorterTest {
 	public void testSameFirstLevelWithTwoLevels() {
 		Collection<GradleBuildFile> uris = createFiles("abc-xyz.gradle", "abc.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<GradleBuildFile>(sorter.sortBuildFiles(null, uris));
 		assertBuildFile("abc", sortedBuildFiles.get(0));
 		assertBuildFile("abc-xyz", sortedBuildFiles.get(1));
 	}
@@ -38,7 +38,7 @@ public class FileNameGradleBuildFileSorterTest {
 	public void testSameFirstLevelDifferentSecondLevelNameSorting() {
 		Collection<GradleBuildFile> uris = createFiles("abc-xyz.gradle", "abc-def.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<GradleBuildFile>(sorter.sortBuildFiles(null, uris));
 		assertBuildFile("abc-def", sortedBuildFiles.get(0));
 		assertBuildFile("abc-xyz", sortedBuildFiles.get(1));
 	}
@@ -48,7 +48,7 @@ public class FileNameGradleBuildFileSorterTest {
 	public void testSameFirstLevelSecondLevelSameButLongerNameSorting() {
 		Collection<GradleBuildFile> uris = createFiles("abc-xyz.gradle", "abc-xyzdef.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<GradleBuildFile>(sorter.sortBuildFiles(null, uris));
 		assertBuildFile("abc-xyz", sortedBuildFiles.get(0));
 		assertBuildFile("abc-xyzdef", sortedBuildFiles.get(1));
 	}
@@ -57,7 +57,7 @@ public class FileNameGradleBuildFileSorterTest {
 	public void testMulitpleMixedNameSorting() {
 		Collection<GradleBuildFile> uris = createFiles("abc.gradle", "def-xyz.gradle", "abc-xyz.gradle", "def.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<GradleBuildFile>(sorter.sortBuildFiles(null, uris));
 		assertBuildFile("abc", sortedBuildFiles.get(0));
 		assertBuildFile("def", sortedBuildFiles.get(1));
 		assertBuildFile("abc-xyz", sortedBuildFiles.get(2));
@@ -68,7 +68,7 @@ public class FileNameGradleBuildFileSorterTest {
 	public void testCaseInsensitiveNameSorting() {
 		Collection<GradleBuildFile> uris = createFiles("a.gradle", "B.gradle");
 		FileNameGradleBuildFileSorter sorter = new FileNameGradleBuildFileSorter();
-		List<GradleBuildFile> sortedBuildFiles = new LinkedList<>(sorter.sortBuildFiles(null, uris));
+		List<GradleBuildFile> sortedBuildFiles = new LinkedList<GradleBuildFile>(sorter.sortBuildFiles(null, uris));
 		assertBuildFile("a", sortedBuildFiles.get(0));
 		assertBuildFile("B", sortedBuildFiles.get(1));
 	}
@@ -79,7 +79,7 @@ public class FileNameGradleBuildFileSorterTest {
 	}
 
 	private Collection<GradleBuildFile> createFiles(String... fileNames) {
-		List<GradleBuildFile> uris = new LinkedList<>();
+		List<GradleBuildFile> uris = new LinkedList<GradleBuildFile>();
 		for(String name: fileNames) {
 			URI uri = new File(folder.getRoot(), name).toPath().toUri();
 			uris.add(new UriGradleBuildFile(uri));
