@@ -29,7 +29,7 @@ public class UriGradleBuildFileTest {
 	
 	
 	private List<GradleBuildFile> createFiles(String... fileNames) {
-		List<GradleBuildFile> uris = new LinkedList<>();
+		List<GradleBuildFile> uris = new LinkedList<GradleBuildFile>();
 		for(String name: fileNames) {
 			URI uri = new File(folder.getRoot(), name).toPath().toUri();
 			uris.add(new UriGradleBuildFile(uri));
