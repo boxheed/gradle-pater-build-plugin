@@ -5,7 +5,7 @@ buildscript {
 	}
 	dependencies {
 		//apply the pater plugin in order to apply any packaged gradle build scripts
-		classpath 'com.fizzpod:gradle-pater-build-plugin:1.0.0'
+		classpath 'com.fizzpod:gradle-pater-build-plugin:1+'
 		//apply your plugin in the build script dependencies for scanning by the pater plugin
 		classpath 'com.example:junit-dependency:1.0'
 	}
