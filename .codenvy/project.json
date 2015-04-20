@@ -1,0 +1,1 @@
+{"mixinTypes":["contribution"],"builders":{"configs":{}},"runners":{"configs":{}},"description":"Gradle plugin providing parent pom like functionality","type":"blank","attributes":{"contribute_branch":["master"],"contribute_mode":["contribute"]}}
