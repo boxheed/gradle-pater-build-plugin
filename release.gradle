@@ -9,7 +9,7 @@ buildscript {
         classpath 'pl.allegro.tech.build:axion-release-plugin:1.2.3'
 		classpath 'net.saliman:gradle-cobertura-plugin:2.2.8'
 		classpath 'com.fizzpod:gradle-extended-info-plugin:0.1.6'		
-		classpath 'com.fizzpod:gradle-sweeney-plugin:1.0.1'
+		classpath 'com.fizzpod:gradle-sweeney-plugin:1.0.0'
 		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.0'
     }
 }
