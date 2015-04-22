@@ -20,12 +20,12 @@ before_script:
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
   - mkdir -p shippable/artifacts
-  - git remote set-url origin git@github.com:boxheed/gradle-pater-build-plugin.git
+  - git remote set-url origin git@github.com:$REPO_NAME.git
+  - mkdir $HOME/.gradle; printenv | grep GRADLE_PROP | cut -d'=' -f 2- >> $HOME/.gradle/gradle.properties
   
 script:
-  - ./gradlew clean build
-  - set -e; if [ "$HEAD_BRANCH" == "master" ]; then ./gradlew clean verifyRelease createRelease; git push --tags; ./gradlew -b release.gradle clean build publishPluginToBintray; fi
-  
+  - ./gradlew clean build; if [ "$HEAD_BRANCH" == "master" ]; then ./gradlew clean verifyRelease createRelease; git push --tags; ./gradlew -b release.gradle clean build publishPlugins publishPluginToBintray; fi
+
 after_script:
   - cp -R ./build/test-results/* ./shippable/testresults
   - cp -R ./build/reports/cobertura/*.xml ./shippable/codecoverage
@@ -36,5 +36,4 @@ archive: true
 #environment
 env:
   global:
-    - secure: bvTegN/hfD3iXkXWSJ5nLepEqrZ7ISy0vdjtIAdmoVB5ctlIk0c/WgqMTACyU53+BBIYvC6luh8E2uo985/0pV2/SdYFFygKNHXDYEcJNG+n4MPGb9tLDPl+MiNn7ZJxxs/QGG+9qpY1VspIOAMKF+GVw6Yy0yVY/1AQYnYwz0mDJ52UbaaVZVV1hr5zAObH7mSKUWzYu7iOd0PNy0wBv6hsr8D6BbBJ/PoRB0IRCZiiqaris5V6B9jnoIi23S4xSVZNmRjMP39hh4DGkgLozJbhGAzP7tRqiKD4QJ14Ns6OO1oYKkL2Ptj32Je4YTPr7oBzQ9eWSNDOikjSs5moVw==
-	
+    - secure: f1ITQxE2kBYq6VVpIoia8XGmX8oGXcJQ5sBZtV6FcoNsaJ1zpjknNFICoIEdXVa4zM7HexG+nJbkmqR7zhYOQIhug08rzkJMwV2lUd4DclocawvSG46SAfq28qs5s8+dpptlhmSTFLF1Z2KexTCWg3eNuVyklSOZ6ed6f2el9KXzj9vx1/OaiQGPWXDVqcrTTju0oNzA2IkV0dpJEC5oHWM+Vdw0hR6YjoMWW7HFdwuND/XyErNy+LzSX5uzAxJQgqrC88ckBgBkNjXLd5uqB4KV4mW9PGe3XKVoNJREkEB7lMpzK91yIgSpk9Dr/fa6r6znjE7E/JprJEIjDiSpprXam+Kmdbr/0yR6143unsFXA8L3OMnMrmSyBQo6mALZ5FYHYLX89u61/rY8ejvTGgMWZW7+mV9bZmNMQDPAX+Dm4O7PJJJuzhCCZiS6g21riHEtpEC3iFuYn+tXSNX0V+DuiVQf34nSschvTlu1GsyqcvZZx1+AJyWeVZ7HxMkUBY+ZIfsW+E0LMz0AoJrWxvfl2VyBOyJd93hERk0v+5nAbbavro9Os+bXUVLH5I94EB8PMSOK5DcDkSabkorBzBjlatahy/l++P/F6xwij0QZq/ri0jgHRTGpE9gQVHzIUhOxpVP+wWaHvw9Z3Yi4/uAnz9nk/2pANr5Y7ikAJ7k=

@@ -1,11 +1,16 @@
 buildscript {
 	repositories {
 		jcenter()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
 	}
 	dependencies {
-        classpath 'pl.allegro.tech.build:axion-release-plugin:1.2.1'
-		classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
-		classpath 'com.fizzpod:gradle-extended-info-plugin:0.1.3'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.2.3'
+		classpath 'net.saliman:gradle-cobertura-plugin:2.2.8'
+		classpath 'com.fizzpod:gradle-extended-info-plugin:0.1.6'		
+		classpath 'com.fizzpod:gradle-sweeney-plugin:1.0.1'
+		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.0'
     }
 }
 
@@ -13,7 +18,25 @@ plugins {
 	id 'nu.studer.plugindev' version '1.0.3'
 }
 
+apply plugin: 'com.fizzpod.sweeney'
+apply plugin: 'com.gradle.plugin-publish'
 apply from: 'build.gradle'
+
+pluginBundle {
+  website = 'https://github.com/boxheed/gradle-pater-build-plugin'
+  vcsUrl = 'https://github.com/boxheed/gradle-pater-build-plugin'
+
+  description = 'Gradle plugin providing parent pom like functionality.'
+  tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
+
+  plugins {
+
+    plugin {
+      id = 'com.fizzpod.pater-build'
+      displayName = 'Gradle Parent Build Plugin'
+    }
+  }
+}
 
 plugindev {
 	pluginId 'com.fizzpod.pater-build'
@@ -21,9 +44,9 @@ plugindev {
     pluginDescription 'Gradle plugin providing parent pom like functionality.'
     pluginLicenses 'Apache-2.0'
     pluginTags 'gradle', 'parent', 'build', 'pom', 'plugin'
-    authorId System.env.BINTRAY_USER
-    authorName System.env.BINTRAY_AUTHOR
-    authorEmail System.env.BINTRAY_EMAIL
+    authorId bintray_user
+    authorName bintray_user
+    authorEmail bintray_mail
     projectUrl 'https://github.com/boxheed/gradle-pater-build-plugin'
 	projectIssuesUrl 'https://github.com/boxheed/gradle-pater-build-plugin/issues'
 	projectVcsUrl 'https://github.com/boxheed/gradle-pater-build-plugin.git'
@@ -32,7 +55,7 @@ plugindev {
 }
 
 bintray {
-    user = System.env.BINTRAY_USER
-    key = System.env.BINTRAY_KEY
+    user = bintray_user
+    key = bintray_api_key
     pkg.repo = 'gradle-plugins'
 }
