@@ -19,8 +19,8 @@ buildscript {
 	}
 }
 
+//Using a previous version of this plugin for the build
 apply plugin: 'com.fizzpod.pater-build'
-
 
 dependencies {
 	compile gradleApi()
