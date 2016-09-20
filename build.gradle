@@ -13,7 +13,7 @@ buildscript {
 		classpath ('com.fizzpod:gradle-plugin-opinion:2.1.0') {
 			exclude group: 'com.gradle.publish', module: 'plugin-publish-plugin'
 		}
-		com.gradle.publish:plugin-publish-plugin:0.9.1
+		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.1'
 	}
 }
 
