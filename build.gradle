@@ -2,67 +2,50 @@ buildscript {
 	repositories {
 		mavenLocal()
 		jcenter()
+		maven {
+	      url "https://plugins.gradle.org/m2/"
+	    }
+		maven {
+			url "https://dl.bintray.com/boxhead/maven/"
+		}
 	}
 	dependencies {
-        classpath 'pl.allegro.tech.build:axion-release-plugin:1.2.3'
-		classpath 'net.saliman:gradle-cobertura-plugin:2.2.8'
-		classpath 'com.fizzpod:gradle-sweeney-plugin:1.0.0'
-		classpath 'com.fizzpod:gradle-extended-info-plugin:0.1.6'
-    }
+		classpath 'com.fizzpod:gradle-plugin-opinion:2.1.0'
+	}
 }
 
-apply plugin: 'groovy'
-apply plugin: 'java-gradle-plugin'
-apply plugin: 'eclipse'
-apply plugin: 'maven'
-apply plugin: 'cobertura'
-apply plugin: 'pl.allegro.tech.build.axion-release'
-apply plugin: 'com.fizzpod.info'
-apply plugin: 'com.fizzpod.sweeney'
-apply plugin: 'project-report'
+apply plugin: 'com.fizzpod.pater-build'
 
-repositories {
-	mavenLocal()
-	jcenter()
-}
-
-
-scmVersion {
-    tag {
-        prefix = 'release'
-    }
-}
-
-group = 'com.fizzpod'
-version = scmVersion.version
-
-sweeney {
-	enforce 'jdk:[1.7,)'
-	enforce 'gradle:[2.2,)'
-}
 
 dependencies {
 	compile gradleApi()
 	compile localGroovy()
-	compile 'org.reflections:reflections:0.9.9'
+	compile 'org.reflections:reflections:0.9.10'
 	compile 'commons-io:commons-io:2.4'
 	
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-all:1.10.19'
-
-
 }
 
-artifacts {
-	jar
+bintray {
+	dryRun = false
+	publish = true
+	pkg {
+		labels = ['gradle', 'parent', 'build', 'pom', 'plugin']
+	}
 }
 
-cobertura {
-    coverageFormats = ['html', 'xml']				
-    coverageIgnoreTrivial = true					
-    coverageIgnores = ['org.slf4j.Logger.*']			
-    coverageReportDir = new File("$buildDir/reports/cobertura")	
-}
+pluginBundle {
 
-test.finalizedBy(project.tasks.cobertura)
+	description = 'Gradle plugin providing parent pom like functionality.'
+	tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
+
+  plugins {
+
+	plugin {
+		id = 'com.fizzpod.pater-build'
+		displayName = 'Gradle Parent Build Plugin'
+	}
+  }
+}
 
