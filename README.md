@@ -1,4 +1,4 @@
-[![Build Status](https://drone.io/github.com/boxheed/gradle-pater-build-plugin/status.png)](https://drone.io/github.com/boxheed/gradle-pater-build-plugin/latest)
+[![Run Status](https://api.shippable.com/projects/54eda7bc5ab6cc13528dbc5b/badge?branch=master)](https://app.shippable.com/github/boxheed/gradle-pater-build-plugin)
 [ ![Download](https://api.bintray.com/packages/boxhead/gradle-plugins/gradle-pater-build-plugin/images/download.svg) ](https://bintray.com/boxhead/gradle-plugins/gradle-pater-build-plugin/_latestVersion)
 
 # Gradle Pater Plugin
@@ -18,7 +18,7 @@ buildscript {
 	dependencies {
 	    //The pater build plugin.
 		classpath 'com.fizzpod:gradle-pater-build-plugin:1.0.0'
-		//Your library containing the build file in META-INF/pater-build 
+		//Your library containing the build file in META-INF/pater-build
 		classpath 'com.example:opinion-java:1.0.0'
 	}
 }
@@ -34,7 +34,7 @@ The plugin orders the build scripts that it finds according to the names of the 
 * The .gradle extension is removed.
 * The names are separated out by hyphens e.g. `my-build-script.gradle` will become three tokens `[my][build][script]`.
 * The tokens from each build script name are compared with scripts with fewer tokens migrating to the top of the list.
- 
+
 It is therefore necessary to apply a naming convention to the build files included to be certain that they are applied in the correct order.
 
 # Limitations
@@ -48,4 +48,3 @@ You can customise the build file resolution with your own implementation. The in
 
 ## Build file sorting
 you can customise the sorting of the buil files with your own implementation. The interface is `com.fizzpod.gradle.plugins.pater.GradleBuildFileSorter` with the default implementation being `com.fizzpod.gradle.plugins.pater.FileNameGradleBuildFileSorter`. As with the build file resolution you need to specify the implementation in a `META-INF/services/com.fizzpod.gradle.plugins.pater.GradleBuildFileSorter`. The difference with this extension point is that whilst you can specify multiple GradleBuildFileSorters it will only use the first one discovered.
-
