@@ -14,7 +14,7 @@ buildscript {
 			exclude group: 'com.gradle.publish', module: 'plugin-publish-plugin'
 			exclude group: 'com.jfrog.bintray.gradle', module: 'gradle-bintray-plugin'
 		}
-		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.6'
+		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.9'
 		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
 	}
 }
