@@ -25,7 +25,7 @@ build:
 
   on_success:
     - cp -R ./build/test-results/* ./shippable/testresults
-    - cp -R ./build/reports/cobertura/*.xml ./shippable/codecoverage
+    - cp -R ./build/reports/jacoco/test/*.xml ./shippable/codecoverage
     - cp -R ./build/libs/* ./shippable/artifacts
 
 #environment
