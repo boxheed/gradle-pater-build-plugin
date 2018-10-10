@@ -1,51 +1,51 @@
 buildscript {
-	repositories {
-		mavenLocal()
-		jcenter()
-		maven {
-	      url "https://plugins.gradle.org/m2/"
-	    }
-		maven {
-			url "https://dl.bintray.com/boxhead/maven/"
-		}
-	}
-	dependencies {
-		classpath ('com.fizzpod:gradle-plugin-opinion:5.2.0') 
-	}
+  repositories {
+    mavenLocal()
+    jcenter()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+      }
+    maven {
+      url "https://dl.bintray.com/boxhead/maven/"
+    }
+  }
+  dependencies {
+    classpath ('com.fizzpod:gradle-plugin-opinion:7.1.1') 
+  }
 }
 
 //Using a previous version of this plugin for the build
 apply plugin: 'com.fizzpod.pater-build'
 
 dependencies {
-	compile gradleApi()
-	compile localGroovy()
-	compile 'org.reflections:reflections:0.9.10'
-	compile 'commons-io:commons-io:2.4'
-	
-	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-all:1.10.19'
+  compile gradleApi()
+  compile localGroovy()
+  compile 'org.reflections:reflections:0.9.10'
+  compile 'commons-io:commons-io:2.4'
+  
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-all:1.10.19'
 }
 
 bintray {
-	dryRun = false
-	publish = true
-	pkg {
-		labels = ['gradle', 'parent', 'build', 'pom', 'plugin']
-	}
+  dryRun = false
+  publish = true
+  pkg {
+    labels = ['gradle', 'parent', 'build', 'pom', 'plugin']
+  }
 }
 
 pluginBundle {
 
-	description = 'Gradle plugin providing parent pom like functionality.'
-	tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
+  description = 'Gradle plugin providing parent pom like functionality.'
+  tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
 
   plugins {
 
-	plugin {
-		id = 'com.fizzpod.pater-build'
-		displayName = 'Gradle Parent Build Plugin'
-	}
+  plugin {
+    id = 'com.fizzpod.pater-build'
+    displayName = 'Gradle Parent Build Plugin'
+  }
   }
 }
 
