@@ -6,11 +6,11 @@ buildscript {
         url "https://plugins.gradle.org/m2/"
       }
     maven {
-      url "https://dl.bintray.com/boxhead/maven/"
+      url "https://artifacts.fizzpod.com/public/mvn/"
     }
   }
   dependencies {
-    classpath ('com.fizzpod:gradle-plugin-opinion:10.0.2') 
+    classpath ('com.fizzpod:gradle-plugin-opinion:10.0.6') 
   }
 }
 
@@ -20,19 +20,11 @@ apply plugin: 'com.fizzpod.pater-build'
 dependencies {
   api gradleApi()
   api localGroovy()
-  implementation 'org.reflections:reflections:0.9.11'
+  implementation 'org.reflections:reflections:0.9.12'
   implementation 'commons-io:commons-io:2.6'
   
-  testImplementation 'junit:junit:4.12'
+  testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
-}
-
-bintray {
-  dryRun = false
-  publish = true
-  pkg {
-    labels = ['gradle', 'parent', 'build', 'pom', 'plugin']
-  }
 }
 
 pluginBundle {
