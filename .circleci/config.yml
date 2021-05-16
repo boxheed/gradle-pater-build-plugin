@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run: ./gradlew clean verifyRelease createRelease
       - run: ./gradlew clean build
-      - run: ./gradlew bintrayUpload
+      - run: ./gradlew publish
       - run: ./gradlew publishPlugins
 
 workflows:
