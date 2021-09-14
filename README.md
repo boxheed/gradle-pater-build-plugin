@@ -1,5 +1,4 @@
-[![Run Status](https://api.shippable.com/projects/54eda7bc5ab6cc13528dbc5b/badge?branch=master)](https://app.shippable.com/github/boxheed/gradle-pater-build-plugin)
-[ ![Download](https://api.bintray.com/packages/boxhead/gradle-plugins/gradle-pater-build-plugin/images/download.svg) ](https://bintray.com/boxhead/gradle-plugins/gradle-pater-build-plugin/_latestVersion)
+[![CircleCI](https://circleci.com/gh/boxheed/gradle-pater-build-plugin/tree/master.svg?style=svg)](https://circleci.com/gh/boxheed/gradle-pater-build-plugin/tree/master)
 
 # Gradle Pater Plugin
 This plugin provides parent build script like capabilities to Gradle. Inspired by a number of blog posts about how to work with/around the current capabilities of Gradle to support importing other build scripts. Current strategies use either `apply from:` in conjunction with a URL or recommend writing your own plugin to set different aspects of a Gradle project programmatically. This plugin combines both of these approaches into a single strategy that allows you to write simple gradle build files and take advantage of dependency management.
