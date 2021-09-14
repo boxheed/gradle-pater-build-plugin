@@ -1,1 +1,2 @@
 com.fizzpod.gradle.plugins.pater.CustomBuildFileResolver
+com.fizzpod.gradle.plugins.pater.JavaServiceLoaderGradleBuildFileResolver
