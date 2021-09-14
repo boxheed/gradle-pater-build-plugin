@@ -4,6 +4,5 @@ import org.gradle.api.Project
 
 public interface GradleBuildFileSorter {
 
-	public Collection<GradleBuildFile> sortBuildFiles(Project project, Collection<GradleBuildFile> uris);
-	
+    public Collection<GradleBuildFile> sortBuildFiles(Project project, Collection<GradleBuildFile> uris);
 }

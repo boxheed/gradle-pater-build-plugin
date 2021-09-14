@@ -6,20 +6,20 @@ import java.util.ServiceLoader;
 
 public class GradleBuildFileResolverFactory {
 
-	private static ServiceLoader<GradleBuildFileResolver> gradleBuildFileResolverLoader = ServiceLoader
-			.load(GradleBuildFileResolver.class);
+    private static ServiceLoader<GradleBuildFileResolver> gradleBuildFileResolverLoader = ServiceLoader
+    .load(GradleBuildFileResolver.class);
 
-	public Collection<GradleBuildFileResolver> getBuildFileResolvers() {
+    public Collection<GradleBuildFileResolver> getBuildFileResolvers() {
 
-		Collection<GradleBuildFileResolver> resolvers = new LinkedList<GradleBuildFileResolver>();
+        Collection<GradleBuildFileResolver> resolvers = new LinkedList<GradleBuildFileResolver>();
 
-		for (GradleBuildFileResolver resolver : gradleBuildFileResolverLoader) {
-			resolvers.add(resolver);
-		}
-		if(resolvers.isEmpty()) {
-			resolvers.add(new ClasspathGradleBuildFileResolver());
-		}
-		return resolvers;
-	}
-
+        for (GradleBuildFileResolver resolver : gradleBuildFileResolverLoader) {
+            resolvers.add(resolver);
+        }
+        if(resolvers.isEmpty()) {
+            resolvers.add(new ClasspathGradleBuildFileResolver());
+            resolvers.add(new JavaServiceLoaderGradleBuildFileResolver());
+        }
+        return resolvers;
+    }
 }
