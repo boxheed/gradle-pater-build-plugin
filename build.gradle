@@ -9,34 +9,43 @@ buildscript {
     }
   }
   dependencies {
-    classpath ('com.fizzpod:gradle-plugin-opinion:11.6.0') 
+    classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0')
   }
 }
 
 //Using a previous version of this plugin for the build
 apply plugin: 'com.fizzpod.pater-build'
 
+
+
 dependencies {
   api gradleApi()
   api localGroovy()
+
   implementation 'org.reflections:reflections:0.9.12'
-  implementation 'commons-io:commons-io:2.6'
+  implementation 'commons-io:commons-io:2.11.0'
   
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
 }
 
-pluginBundle {
+dependencyCheck {
+  failBuildOnCVSS=7
+  suppressionFiles=["./cve-suppressions.xml"]
+}
 
+pluginBundle {
   description = 'Gradle plugin providing parent pom like functionality.'
   tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
+}
 
-  plugins {
-
-  plugin {
-    id = 'com.fizzpod.pater-build'
-    displayName = 'Gradle Parent Build Plugin'
-  }
-  }
+gradlePlugin {
+    plugins {
+        plugin {
+            id = 'com.fizzpod.pater-build'
+            displayName = 'Gradle Parent Build Plugin'
+            implementationClass = 'com.fizzpod.gradle.plugins.pater.PaterPlugin'
+        }
+    }
 }
 

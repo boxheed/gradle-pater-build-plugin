@@ -8,7 +8,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:8.0
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -21,10 +21,26 @@ jobs:
       - checkout
       - run: ./gradlew clean build
   
+  security:
+    docker:
+      # specify the version you desire here
+      - image: cimg/openjdk:8.0
+    working_directory: ~/repo
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    steps:
+      - run:
+          name: setup
+          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
+      - checkout
+      - run: ./gradlew clean dependencyCheckAnalyze
+
   publish:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:8.0
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -45,6 +61,13 @@ workflows:
     jobs:
       - build:
           context: boxhead-builds
+      - security:
+          context: boxhead-builds
+          requires:
+            - build
+          filters:
+            branches:
+              only: /^release.*$/
       - publish:
           context: boxhead-builds
           requires:
