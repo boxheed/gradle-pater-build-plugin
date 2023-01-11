@@ -36,7 +36,7 @@ dependencyCheck {
 
 pluginBundle {
   description = 'Gradle plugin providing parent pom like functionality.'
-  tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
+  tags = ['parent', 'build', 'pom']
 }
 
 gradlePlugin {
