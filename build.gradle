@@ -53,10 +53,15 @@ dependencies {
   api localGroovy()
   //implementation 'org.reflections:reflections:0.10.2'
   implementation 'org.reflections:reflections:0.9.12'
-  implementation 'commons-io:commons-io:2.6'
+  implementation 'commons-io:commons-io:2.11.0'
   
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
+}
+
+dependencyCheck {
+  failBuildOnCVSS=7
+  suppressionFiles=["./cve-suppressions.xml"]
 }
 
 pluginBundle {
