@@ -65,9 +65,9 @@ workflows:
           context: boxhead-builds
           requires:
             - build
-#          filters:
-#            branches:
-#              only: /^release.*$/
+          filters:
+            branches:
+              only: /^release.*$/
       - publish:
           context: boxhead-builds
           requires:
