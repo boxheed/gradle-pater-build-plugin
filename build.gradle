@@ -9,16 +9,49 @@ buildscript {
     }
   }
   dependencies {
-    classpath ('com.fizzpod:gradle-plugin-opinion:11.6.0') 
+    //classpath ('com.fizzpod:gradle-plugin-opinion:11.6.0') 
+    classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0') {
+      //exclude group: 'com.fizzpod', module: 'gradle-pater-build-plugin'
+    }
+
   }
 }
 
 //Using a previous version of this plugin for the build
 apply plugin: 'com.fizzpod.pater-build'
+/*
+sourceSets {
+    main {
+        java {
+            srcDir 'buildSrc/src/main/java'
+        }
+        resources {
+            srcDir 'buildSrc/src/main/resources'
+            exclude 'META-INF/gradle-plugins/com.fizzpod.pater-build.properties'
+        }
+        groovy {
+            srcDir 'buildSrc/src/main/groovy'
+        }
+    }
+    test {
+        java {
+            srcDir 'buildSrc/src/test/java'
+        }
+        resources {
+            srcDir 'buildSrc/src/test/resources'
+        }
+        groovy {
+            srcDir 'buildSrc/src/test/groovy'
+        }
+    }
+}
+*/
+
 
 dependencies {
   api gradleApi()
   api localGroovy()
+  //implementation 'org.reflections:reflections:0.10.2'
   implementation 'org.reflections:reflections:0.9.12'
   implementation 'commons-io:commons-io:2.6'
   
@@ -27,16 +60,17 @@ dependencies {
 }
 
 pluginBundle {
-
   description = 'Gradle plugin providing parent pom like functionality.'
   tags = ['gradle', 'parent', 'build', 'pom', 'plugin']
+}
 
-  plugins {
-
-  plugin {
-    id = 'com.fizzpod.pater-build'
-    displayName = 'Gradle Parent Build Plugin'
-  }
-  }
+gradlePlugin {
+    plugins {
+        plugin {
+            id = 'com.fizzpod.pater-build'
+            displayName = 'Gradle Parent Build Plugin'
+            implementationClass = 'com.fizzpod.gradle.plugins.pater.PaterPlugin'
+        }
+    }
 }
 
