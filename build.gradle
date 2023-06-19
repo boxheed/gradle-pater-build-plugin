@@ -22,7 +22,7 @@ dependencies {
   api gradleApi()
   api localGroovy()
 
-  implementation 'org.reflections:reflections:0.9.12'
+  implementation 'org.reflections:reflections:0.10.2'
   implementation 'commons-io:commons-io:2.11.0'
   
   testImplementation 'junit:junit:4.13.2'
