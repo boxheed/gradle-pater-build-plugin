@@ -9,7 +9,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath ('com.fizzpod:gradle-plugin-opinion:14.1.0')
+    classpath ('com.fizzpod:gradle-plugin-opinion:16.1.4')
   }
 }
 
@@ -23,25 +23,16 @@ dependencies {
   api localGroovy()
 
   implementation 'org.reflections:reflections:0.9.12'
-  implementation 'commons-io:commons-io:2.11.0'
+  implementation 'commons-io:commons-io:2.15.1'
   
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
 }
-
-dependencyCheck {
-  failBuildOnCVSS=7
-  suppressionFiles=["./cve-suppressions.xml"]
-}
-
-pluginBundle {
-  description = 'Gradle plugin providing parent pom like functionality.'
-  tags = ['parent', 'build', 'pom']
-}
-
 gradlePlugin {
     plugins {
         plugin {
+            description = 'Gradle plugin providing parent pom like functionality.'
+            tags.set(['parent', 'build', 'pom'])
             id = 'com.fizzpod.pater-build'
             displayName = 'Gradle Parent Build Plugin'
             implementationClass = 'com.fizzpod.gradle.plugins.pater.PaterPlugin'
