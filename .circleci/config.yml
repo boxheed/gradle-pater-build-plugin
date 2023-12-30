@@ -24,7 +24,7 @@ jobs:
   security:
     docker:
       # specify the version you desire here
-      - image: cimg/openjdk:11.0
+      - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -40,7 +40,7 @@ jobs:
   release:
     docker:
       # specify the version you desire here
-      - image: cimg/openjdk:11.0
+      - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -57,7 +57,7 @@ jobs:
   publish:
     docker:
       # specify the version you desire here
-      - image: cimg/openjdk:11.0
+      - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -77,15 +77,11 @@ workflows:
           context: boxhead-builds
       - security:
           context: boxhead-builds
-          requires:
-            - build
-          filters:
-            branches:
-              only: /^release.*$/
       - release:
           context: boxhead-builds
           requires:
             - build
+            - security
           filters:
             branches:
               only: /^(?:main|master)$/
@@ -96,5 +92,4 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^release-\d+\.\d+\.\d+$/
-              
+              only: /^release-\d+\.\d+\.\d+$/       
