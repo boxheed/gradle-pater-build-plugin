@@ -9,7 +9,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath ('com.fizzpod:gradle-plugin-opinion:17.0.3')
+    classpath ('com.fizzpod:gradle-plugin-opinion:17.0.4')
   }
 }
 
