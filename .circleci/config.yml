@@ -45,8 +45,9 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: ./gradlew createRelease
-      - run: git push --tags
+      - run: ./gradlew tagSemver
+      - run: git checkout develop && git merge $CIRCLE_BRANCH 
+      - run: git push --atomic origin $CIRCLE_BRANCH develop --tags
 
   publish:
     docker:
@@ -86,4 +87,4 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^release-\d+\.\d+\.\d+$/       
+              only: /^v\d+\.\d+\.\d+$/       

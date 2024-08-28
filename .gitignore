@@ -5,3 +5,6 @@
 bin
 build
 .vscode/
+.LCKbuild.gradle~
+.osv-scanner
+.git-semver
