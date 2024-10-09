@@ -17,7 +17,7 @@ jobs:
     steps:
       - run:
           name: setup
-          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
+          - run: "git checkout develop && git merge $CIRCLE_BRANCH -m \"fix(release): merge $CIRCLE_BRANCH into develop\" --no-ff"
       - checkout
       - run: ./gradlew clean build 
   
