@@ -17,7 +17,7 @@ jobs:
     steps:
       - run:
           name: setup
-          - run: "git checkout develop && git merge $CIRCLE_BRANCH -m \"fix(release): merge $CIRCLE_BRANCH into develop\" --no-ff"
+          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
       - run: ./gradlew clean build 
   
@@ -46,7 +46,7 @@ jobs:
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
       - run: ./gradlew tagSemver
-      - run: git checkout develop && git merge $CIRCLE_BRANCH 
+      - run: "git checkout develop && git merge $CIRCLE_BRANCH -m \"fix(release): merge $CIRCLE_BRANCH into develop\" --no-ff"
       - run: git push --atomic origin $CIRCLE_BRANCH develop --tags
 
   publish:
