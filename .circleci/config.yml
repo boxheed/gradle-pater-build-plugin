@@ -8,7 +8,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:17.0
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -23,7 +23,7 @@ jobs:
   
   security:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:17.0
     working_directory: ~/repo
     steps:
       - checkout
@@ -34,7 +34,7 @@ jobs:
   release:
     docker:
       # specify the version you desire here
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:17.0
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -52,7 +52,7 @@ jobs:
   publish:
     docker:
       # specify the version you desire here
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:17.0
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
