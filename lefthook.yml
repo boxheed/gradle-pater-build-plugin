@@ -1,0 +1,9 @@
+assert_lefthook_installed: true
+pre-commit:
+  follow: true
+  commands:
+    test: {glob: '*.{groovy,java}', run: ./gradlew test}
+commit-msg:
+  follow: true
+  scripts:
+    commit-msg: {runner: bash}
