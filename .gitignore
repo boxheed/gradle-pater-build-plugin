@@ -8,3 +8,8 @@ build
 .LCKbuild.gradle~
 .osv-scanner
 .git-semver
+gradle.lockfile
+settings-gradle.lockfile
+.lefthook
+./lefthook
+lefthook-local.yml
