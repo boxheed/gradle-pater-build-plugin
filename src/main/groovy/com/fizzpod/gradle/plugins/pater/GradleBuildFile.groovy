@@ -1,11 +1,12 @@
-package com.fizzpod.gradle.plugins.pater;
+/* SPDX-License-Identifier: Apache-2.0 */
+/* (C) 2024 */
+package com.fizzpod.gradle.plugins.pater
 
 import org.gradle.api.Project
 
 public interface GradleBuildFile {
 
-	String getName();
-	
-	void apply(Project project);
-	
+	String getName()
+
+	void apply(Project project)
 }

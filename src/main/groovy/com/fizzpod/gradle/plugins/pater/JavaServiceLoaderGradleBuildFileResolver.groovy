@@ -1,13 +1,15 @@
-package com.fizzpod.gradle.plugins.pater;
+/* SPDX-License-Identifier: Apache-2.0 */
+/* (C) 2024 */
+package com.fizzpod.gradle.plugins.pater
 
-import org.gradle.api.Project;
+import org.gradle.api.Project
 
 public class JavaServiceLoaderGradleBuildFileResolver implements GradleBuildFileResolver {
 
-    private static ServiceLoader<GradleBuildFile> gradleBuildFileServiceLoader = ServiceLoader
-    .load(GradleBuildFile.class);
+	private static ServiceLoader<GradleBuildFile> gradleBuildFileServiceLoader = ServiceLoader
+	.load(GradleBuildFile.class)
 
-    Collection<GradleBuildFile> findBuildFiles(Project project) {
-        return gradleBuildFileServiceLoader.asList();
-    }
+	Collection<GradleBuildFile> findBuildFiles(Project project) {
+		return gradleBuildFileServiceLoader.asList()
+	}
 }

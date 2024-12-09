@@ -1,9 +1,10 @@
-package com.fizzpod.gradle.plugins.pater;
+/* SPDX-License-Identifier: Apache-2.0 */
+/* (C) 2024 */
+package com.fizzpod.gradle.plugins.pater
 
 import org.gradle.api.Project
 
 public interface GradleBuildFileResolver {
 
-	Collection<GradleBuildFile> findBuildFiles(Project project);
-	
+	Collection<GradleBuildFile> findBuildFiles(Project project)
 }
