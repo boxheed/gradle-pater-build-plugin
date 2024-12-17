@@ -1,8 +1,10 @@
-package com.fizzpod.gradle.plugins.pater;
+/* (C) 2024 */
+/* SPDX-License-Identifier: Apache-2.0 */
+package com.fizzpod.gradle.plugins.pater
 
 import org.gradle.api.Project
 
 public interface GradleBuildFileSorter {
 
-    public Collection<GradleBuildFile> sortBuildFiles(Project project, Collection<GradleBuildFile> uris);
+	public Collection<GradleBuildFile> sortBuildFiles(Project project, Collection<GradleBuildFile> uris)
 }

@@ -2,6 +2,7 @@ assert_lefthook_installed: true
 pre-commit:
   follow: true
   commands:
+    spotless: {glob: '*', run: ./gradlew spotlessCheck}
     test: {glob: '*.{groovy,java}', run: ./gradlew test}
 commit-msg:
   follow: true
