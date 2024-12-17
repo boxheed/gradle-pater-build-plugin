@@ -1,3 +1,4 @@
+
 bin
 .LCKbuild.gradle~
 .lefthook
@@ -5,11 +6,14 @@ bin
 lefthook-local.yml
 .osv-scanner
 .git-semver
+
+
 # General
 .vagrant/
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.log
+
 .gradle
 **/build/
 !src/**/build/
@@ -31,6 +35,7 @@ gradle-app.setting
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
 # Compiled class file
 *.class
 
@@ -55,6 +60,7 @@ gradle-app.setting
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
 .metadata
 bin/
 tmp/
@@ -115,6 +121,7 @@ local.properties
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -127,9 +134,11 @@ local.properties
 
 # Built Visual Studio Code Extensions
 *.vsix
+
 *.gho
 *.ori
 *.orig
+
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
