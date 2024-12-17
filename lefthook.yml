@@ -3,6 +3,7 @@ pre-commit:
   follow: true
   commands:
     spotless: {glob: '*', run: ./gradlew spotlessCheck}
+    osv: {glob: '*.{groovy,java,gradle}', run: ./gradlew osvInstall osvLockAndScan}
     test: {glob: '*.{groovy,java}', run: ./gradlew test}
 commit-msg:
   follow: true
