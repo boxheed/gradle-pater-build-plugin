@@ -1,4 +1,4 @@
-/* (C) 2024 */
+/* (C) 2025 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.pater
 
@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
+import org.gradle.api.provider.Provider
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
 import org.slf4j.Logger
@@ -17,52 +19,60 @@ import org.slf4j.LoggerFactory
 
 public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClasspathGradleBuildFileResolver.class)
+    public static final String TEMP_BUILDFILE_DIR_NAME = "pater-build"
 
-	Collection<GradleBuildFile> findBuildFiles(Project project) {
-		Set<String> buildFiles = scanForBuildFiles()
-		LOGGER.info("Discovered build files: {}", buildFiles)
-		return exportBuildFiles(buildFiles)
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClasspathGradleBuildFileResolver.class)
 
-	private Set<String> scanForBuildFiles(Project project) {
+    Collection<GradleBuildFile> findBuildFiles(Project project) {
+        Set<String> buildFiles = scanForBuildFiles()
+        LOGGER.info("Discovered build files: {}", buildFiles)
+        File exportFolder = getExportFolder(project)
+        return exportBuildFiles(buildFiles, exportFolder)
+    }
 
-		Reflections reflections = new Reflections("META-INF.pater-build", new ResourcesScanner())
+    private File getExportFolder(Project project) {
+        File exportFolder = null
+        if(project != null && project.getLayout() != null && project.getLayout().getBuildDirectory() != null) {
+            Provider<Directory> dirProvider = project.getLayout().getBuildDirectory().dir(TEMP_BUILDFILE_DIR_NAME)
+            Directory directory = dirProvider.getOrNull()
+            exportFolder = directory.getAsFile()
+        }
+        if(exportFolder == null) {
+            exportFolder = Files.createTempDirectory(TEMP_BUILDFILE_DIR_NAME).toFile()
+        }
+        FileUtils.forceMkdir(exportFolder)
+        return exportFolder
+    }
 
-		Set<String> buildFiles =
-				reflections.getResources(Pattern.compile(".*\\.gradle"))
-		return buildFiles
-	}
+    private Set<String> scanForBuildFiles() {
 
-	private Collection<GradleBuildFile> exportBuildFiles(Collection<String> classpathBuildFiles) {
-		List<GradleBuildFile> buildFiles = new LinkedList<>()
-		for(String classpathBuildFile: classpathBuildFiles) {
-			File buildFile = exportBuildFile(classpathBuildFile)
-			if(buildFile != null && buildFile.exists()) {
-				GradleBuildFile gradleBuildFile = new UriGradleBuildFile(buildFile.toPath().toUri())
-				buildFiles.add(gradleBuildFile)
-			} else {
-				LOGGER.warn("Could not export build file {}", classpathBuildFile)
-			}
-		}
-		return buildFiles
-	}
+        Reflections reflections = new Reflections("META-INF.pater-build", new ResourcesScanner())
 
-	private File exportBuildFile(String classpathBuildFile) {
-		File tempDirectoryFile = Files.createTempDirectory("pater-build").toFile()
-		FileUtils.forceDeleteOnExit(tempDirectoryFile)
-		File buildFile = new File(tempDirectoryFile, FilenameUtils.getName(classpathBuildFile))
-		InputStream inputStream = null
-		OutputStream outputStream = null
-		try {
-			inputStream = this.getClass().getClassLoader().getResourceAsStream(classpathBuildFile)
-			outputStream = new FileOutputStream(buildFile)
-			IOUtils.copy(inputStream, outputStream)
-			FileUtils.forceDeleteOnExit(buildFile)
-		} finally {
-			IOUtils.closeQuietly(inputStream)
-			IOUtils.closeQuietly(outputStream)
-		}
-		return buildFile
-	}
+        Set<String> buildFiles =
+                reflections.getResources(Pattern.compile(".*\\.gradle"))
+        return buildFiles
+    }
+
+    private Collection<GradleBuildFile> exportBuildFiles(Collection<String> classpathBuildFiles, File exportFolder) {
+        List<GradleBuildFile> buildFiles = new LinkedList<>()
+        for(String classpathBuildFile: classpathBuildFiles) {
+            File buildFile = exportBuildFile(classpathBuildFile, exportFolder)
+            if(buildFile != null && buildFile.exists()) {
+                GradleBuildFile gradleBuildFile = new UriGradleBuildFile(buildFile.toPath().toUri())
+                buildFiles.add(gradleBuildFile)
+            } else {
+                LOGGER.warn("Could not export build file {}", classpathBuildFile)
+            }
+        }
+        return buildFiles
+    }
+
+    private File exportBuildFile(String classpathBuildFile, File exportFolder) {
+        File buildFile = new File(exportFolder, FilenameUtils.getName(classpathBuildFile))
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(classpathBuildFile)
+            OutputStream outputStream = new FileOutputStream(buildFile)) {
+            IOUtils.copy(inputStream, outputStream)
+        }
+        return buildFile
+    }
 }
