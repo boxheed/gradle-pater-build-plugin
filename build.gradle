@@ -2,10 +2,10 @@ buildscript {
   repositories {
     mavenLocal()
     maven {
-      url "https://plugins.gradle.org/m2/"
+      url = "https://plugins.gradle.org/m2/"
     }
     maven {
-      url "https://artifacts.fizzpod.com/public/mvn/"
+      url = "https://artifacts.fizzpod.com/public/mvn/"
     }
   }
   dependencies {
@@ -23,7 +23,7 @@ dependencies {
   api localGroovy()
 
   implementation 'org.reflections:reflections:0.9.12'
-  implementation 'commons-io:commons-io:2.18.0'
+  implementation 'commons-io:commons-io:2.19.0'
   
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
