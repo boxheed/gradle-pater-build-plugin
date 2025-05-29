@@ -24,7 +24,21 @@ public class UriGradleBuildFileTest {
     Project project = Mockito.mock(Project.class);
     buildFile.apply(project);
     Assert.assertEquals("build-file-1", buildFile.getName());
+    Assert.assertFalse("".equals(buildFile.toString()));
     Mockito.verify(project, Mockito.times(1)).apply(Mockito.anyMap());
+  }
+
+  @Test
+  public void testEquals() {
+    List<GradleBuildFile> buildFiles = createFiles("build-file-1.gradle", "build-file-1.gradle");
+    GradleBuildFile buildFile1 = buildFiles.get(0);
+    GradleBuildFile buildFile2 = buildFiles.get(1);
+    Object obj = new Object();
+    
+    Assert.assertTrue(buildFiles.size() == 2);
+    Assert.assertTrue(buildFile1.equals(buildFile1));
+    Assert.assertTrue(buildFile1.equals(buildFile2));
+    Assert.assertFalse(buildFile1.equals(obj));
   }
 
   private List<GradleBuildFile> createFiles(String... fileNames) {

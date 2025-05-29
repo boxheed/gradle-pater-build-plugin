@@ -1,4 +1,4 @@
-/* (C) 2024 */
+/* (C) 2024-2025 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.pater
 
@@ -31,7 +31,7 @@ public class UriGradleBuildFile implements GradleBuildFile {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this === obj)
 			return true
 		if (obj == null)
 			return false
