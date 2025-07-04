@@ -28,7 +28,7 @@ dependencies {
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
   testImplementation("junit:junit:4.13.2")
-  testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.1")
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.2")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   
   test {
