@@ -23,12 +23,12 @@ dependencies {
   api localGroovy()
 
   implementation 'org.reflections:reflections:0.9.12'
-  implementation 'commons-io:commons-io:2.20.0'
+  implementation 'commons-io:commons-io:2.21.0'
   
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.mockito:mockito-all:1.10.19'
   testImplementation("junit:junit:4.13.2")
-  testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.4")
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine:6.0.1")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   
   test {
