@@ -1,4 +1,4 @@
-/* (C) 2024 */
+/* (C) 2024-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.pater
 
@@ -8,8 +8,6 @@ import java.util.regex.Pattern
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Project
-import org.reflections.Reflections
-import org.reflections.scanners.ResourcesScanner
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
