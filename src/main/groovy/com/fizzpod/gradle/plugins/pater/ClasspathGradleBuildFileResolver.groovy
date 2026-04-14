@@ -1,4 +1,4 @@
-/* (C) 2025 */
+/* (C) 2025-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.pater
 
@@ -12,7 +12,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
 import org.reflections.Reflections
-import org.reflections.scanners.ResourcesScanner
+import org.reflections.scanners.Scanners
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -46,10 +46,10 @@ public class ClasspathGradleBuildFileResolver implements GradleBuildFileResolver
 
     private Set<String> scanForBuildFiles() {
 
-        Reflections reflections = new Reflections("META-INF.pater-build", new ResourcesScanner())
+        Reflections reflections = new Reflections("META-INF.pater-build", Scanners.Resources)
 
         Set<String> buildFiles =
-                reflections.getResources(Pattern.compile(".*\\.gradle"))
+                reflections.getResources(".*\\.gradle")
         return buildFiles
     }
 
