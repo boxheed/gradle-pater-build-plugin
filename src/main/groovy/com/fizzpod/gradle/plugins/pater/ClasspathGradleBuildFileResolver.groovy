@@ -1,4 +1,4 @@
-/* (C) 2025 */
+/* (C) 2025-2026 */
 /* SPDX-License-Identifier: Apache-2.0 */
 package com.fizzpod.gradle.plugins.pater
 
