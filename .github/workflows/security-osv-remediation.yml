@@ -1,0 +1,114 @@
+name: 'security: osv scan and remediation'
+
+on:
+  schedule:
+    # Run daily at 04:00 UTC to catch newly published advisories as early as possible
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run: scan without triggering remediation'
+        type: boolean
+        default: false
+        required: false
+      force:
+        description: 'Force remediation even if an open PR already covers the vulnerabilities'
+        type: boolean
+        default: false
+        required: false
+  pull_request:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  osv-scan:
+    runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+      - name: Grant execute permissions for gradlew and scripts
+        run: chmod +x ./gradlew .github/scripts/*.sh
+
+      - name: Run OSV Lock and Scan
+        id: scan
+        run: ./gradlew osvInstall osvLockAndScan
+        continue-on-error: true
+
+      - name: Inspect Scan Results
+        id: parse-scan
+        if: >-
+          (steps.scan.outcome == 'failure' || inputs.dry_run) &&
+          !startsWith(github.head_ref || github.ref_name, 'fix/remediate-') &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+        run: .github/scripts/parse_scan_report.sh
+
+      - name: Check Existing Remediation PR
+        id: check-pr
+        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.parse-scan.outputs.has_vulnerabilities == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_BRANCH: ${{ steps.parse-scan.outputs.target_branch }}
+          VULN_IDS: ${{ steps.parse-scan.outputs.vuln_ids }}
+          FORCE: ${{ inputs.force || 'false' }}
+        run: .github/scripts/check_existing_pr.sh
+
+      - name: Check for Missing API Key Secret
+        if: >-
+          steps.scan.outcome == 'failure' && !inputs.dry_run &&
+          steps.parse-scan.outputs.has_vulnerabilities == 'true' &&
+          steps.check-pr.outputs.skip_remediation != 'true' &&
+          env.GEMINI_API_KEY == '' && env.OPENROUTER_API_KEY == ''
+        run: |
+          echo "::warning::Neither GEMINI_API_KEY nor OPENROUTER_API_KEY secret is configured. Add one of them to repository secrets to enable autonomous remediation."
+
+      - name: Run Remediation via Aider
+        id: remediate
+        if: >-
+          steps.scan.outcome == 'failure' && !inputs.dry_run &&
+          steps.parse-scan.outputs.has_vulnerabilities == 'true' &&
+          steps.check-pr.outputs.skip_remediation != 'true' &&
+          (env.GEMINI_API_KEY != '' || env.OPENROUTER_API_KEY != '')
+        run: .github/scripts/run_remediation.sh
+        continue-on-error: true
+
+      - name: Publish Remediation PR
+        id: commit-fix
+        if: >-
+          steps.scan.outcome == 'failure' && !inputs.dry_run &&
+          steps.check-pr.outputs.skip_remediation != 'true' &&
+          steps.remediate.outcome != 'skipped'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_BRANCH: ${{ steps.parse-scan.outputs.target_branch }}
+          VULN_IDS: ${{ steps.parse-scan.outputs.vuln_ids || 'OSV vulnerabilities' }}
+        run: .github/scripts/publish_fix.sh
+        continue-on-error: true
+
+      - name: Gate Check
+        if: steps.scan.outcome == 'failure' && steps.check-pr.outputs.skip_remediation != 'true' && steps.commit-fix.outputs.remediated != 'true'
+        run: |
+          echo "::error::Vulnerabilities detected by OSV Scanner and automated remediation could not be published."
+          exit 1
