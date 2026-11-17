@@ -2,7 +2,7 @@ assert_lefthook_installed: true
 pre-commit:
   follow: true
   commands:
-    layout: {glob: '*', run: ./gradlew applyLayout}
+    layout: {glob: '*', run: ./gradlew checkLayout}
     spotless: {glob: '*', run: ./gradlew spotlessCheck}
     osv: {glob: '*.{groovy,java,gradle}', run: ./gradlew osvInstall osvLockAndScan}
     test: {glob: '*.{groovy,java}', run: ./gradlew test}
