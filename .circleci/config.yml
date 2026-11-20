@@ -4,6 +4,19 @@
 #
 version: 2.1
 
+commands:
+  setup-ci:
+    steps:
+      - run:
+          name: Setup Gradle & Git
+          command: |
+            mkdir -p ~/.gradle
+            { printenv | grep GRADLE_PROP | cut -d'=' -f 2- || true; } >> ~/.gradle/gradle.properties
+            echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+            echo "org.gradle.java.home=$JAVA_HOME" >> ~/.gradle/gradle.properties
+            git config --global user.name "${CIRCLE_USERNAME:-ci}"
+            git config --global user.email "${CIRCLE_USERNAME:-ci}@users.noreply.github.com"
+
 jobs:
   build:
     docker:
@@ -15,9 +28,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     steps:
-      - run:
-          name: setup
-          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
+      - setup-ci
       - checkout
       - run: ./gradlew clean build 
   
@@ -41,9 +52,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     steps:
-      - run:
-          name: setup
-          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
+      - setup-ci
       - checkout
       - run: ./gradlew tagSemver
       - run: "git checkout develop && git merge $CIRCLE_BRANCH -m \"fix(release): merge $CIRCLE_BRANCH into develop\" --no-ff"
@@ -59,9 +68,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     steps:
-      - run:
-          name: setup
-          command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
+      - setup-ci
       - checkout
       - run: ./gradlew build publish publishPlugins githubRelease
 
